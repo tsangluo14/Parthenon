@@ -1,0 +1,253 @@
+TO pillar :scale
+	;pillar patterns
+	setpc "gray
+	repeat 5[repeat 2[fd :scale*350 rt 90 fd :scale*10 rt 90]
+	pu rt 90 fd :scale*10 lt 90 pd]
+	 ;moving back
+	 pu lt 90 fd :scale*50 rt 90
+	;body
+	setpc "black
+	pd
+	repeat 2[fd :scale*350 rt 90 fd :scale*50 rt 90]
+	;top part of pillar
+	 ;moving positions
+	 fd :scale*350
+	 ;trapazoid
+	 pd lt 30 fd :scale*18 
+	 ;rectangle
+	 rt 30
+	 repeat 2[fd :scale*7 rt 90 fd :scale*68 rt 90]
+	 rt 90 fd :scale*68 rt 120 fd :scale*18
+	;moving back to base
+	pu lt 30 fd :scale*350 lt 90 
+END
+
+TO pillars :scale
+	repeat 8[pillar :scale fd :scale*45 lt 90 pd]
+END
+
+TO SIDE_PILLAR :SCALE
+;pillar patterns
+	SETPC "GRAY
+	MAKE "LENGTH 335
+	REPEAT 5 [FD :SCALE * :LENGTH RT 80 FD :SCALE * 10.15 RT 100
+		MAKE "LENGTH :LENGTH + 3.477
+		FD :SCALE * :LENGTH RT 100 FD :SCALE * 10.15
+		PU RT 180 FD :SCALE * 10.15 LT 100 PD]
+;moving back
+	PU LT 80 FD :SCALE * 50.75 RT 80
+;body
+	SETPC "BLACK
+	PD
+	FD :SCALE * 335 RT 80 FD :SCALE * 50.75 RT 100
+	FD :SCALE * 352.38 RT 100 FD :SCALE * 50.75 RT 80
+;top part of pillar
+;moving positions
+	FD :SCALE * 335
+;trapazoid
+	PD LT 35 FD :SCALE * 14
+;rectangle
+	RT 35
+	REPEAT 2 [FD :SCALE * 7 RT 80 FD :SCALE * 68 RT 100]
+	RT 80 FD :SCALE * 68 RT 130 FD :SCALE * 18
+;moving back to base
+	PU LT 30 FD :SCALE * 352.38 RT 100 FD :SCALE * 50.75 
+END
+
+TO side_pillars :scale
+	repeat 8[
+	side_pillar :scale fd :scale*68.75 rt 80 pd
+	make "scale :scale*0.932]
+END
+
+TO parallelogram :width :height :angle
+	repeat 2[fd :height lt 180-:angle fd :width lt :angle]
+END
+
+TO side_layers :scale
+	pu fd :scale*25 pd
+	parallelogram :scale*467.5 :scale*6 78  
+	pu fd :scale*31 pd
+	parallelogram :scale*470 :scale*6 76.5  
+	pu fd :scale*6 pd
+	parallelogram :scale*480 :scale*12 76.5  
+	pu lt 103.5 fd :scale*470 lt 76.5
+	pd fd :scale*37
+END
+
+TO supports :scale
+	;front layers
+	rt 10.5
+	repeat 2[
+	repeat 2[fd :scale*742 lt 90 fd :scale*25 lt 90]
+	pu lt 90 fd :scale*25 rt 90 pd
+	repeat 2[fd :scale*742 lt 90 fd :scale*6 lt 90]
+	pu lt 90 fd :scale*6 rt 90 pd]	
+	repeat 2[fd :scale*755 lt 90 fd :scale*12 lt 90]
+	;moving
+	pu lt 90 bk :scale*62 pd
+	;side layers
+	side_layers :scale
+END
+
+TO roof :scale
+	rt 76 fd :scale*389 rt 28 fd :scale*389
+	pu lt 14 bk :scale*50
+	pd lt 166 fd :scale*337.5 lt 28 fd :scale*337.5
+END
+
+TO rectangle :length :width 
+	pu fd :length pd rt 90 fd :width rt 90
+	fd :length rt 90 fd :width rt 90
+END	
+
+TO paralellogram_ :width :height :angle
+	pu fd :height pd lt :angle fd :width lt 180-:angle
+	fd :height lt :angle fd :width lt 180-:angle
+END
+
+TO stairs :scale
+	;front stairs
+	make "length :scale*9
+	make "width :scale*754
+	repeat 8[
+	rectangle :length :width
+	make "length :length+:scale*1.5
+	make "width :width+:scale*12
+	pu bk :length pd]
+	
+	;moving positions to side stairs
+	pu fd :scale*126 pd
+	
+	;side stairs
+	make "height :scale*9
+	make "width :scale*454
+	repeat 8[
+	paralellogram_ :width :height 80.3
+	make "height :height+:scale*1.5
+	make "width :width+:scale*8
+	pu bk :height pd]
+END
+
+TO spiral :length :direction
+	repeat 10[repeat 90[fd :length rt :direction*1]
+	make "length :length*0.81]
+	;getting back
+	pu
+	make "length :length/0.81
+	repeat 10[repeat 90[bk :length lt :direction*1]
+	make "length :length/0.81]
+	pd
+END
+
+TO decoration_base_center :scale
+	fd :scale*15 rt 90 fd :scale*65 rt 90
+	fd :scale*15 rt 90 
+	pu fd :scale*65 rt 90 pd
+END
+
+TO decoration_base_right :scale
+	pu fd :scale*15 rt 90 
+	pd fd :scale*65 rt 90 fd :scale*15 rt 90 
+	fd :scale*65 rt 90 pd 
+END
+
+TO decoration_base_left :scale
+	fd :scale*15 rt 90 fd :scale*65 rt 90
+	pu fd :scale*15 rt 90 fd :scale*65 rt 90  
+END
+
+TO decoration_top :scale
+	;moving for triangles
+	pu fd :scale*15 rt 90 fd :scale*10 lt 45 pd
+	;triangles
+	repeat 2[fd :scale*21.21 rt 135 fd :scale*15 lt 135]
+	pu lt 45 fd :scale*15 rt 135
+	pd fd :scale*21.21
+	pu rt 180 fd :scale*21.21 lt 45 
+	pd fd :scale*15 
+	;moving for spirals
+	pu bk :scale*7.5 rt 90 pd
+	;spirals
+	 ;lower spirals
+	 fd :scale*5
+	 spiral :scale*0.4 1 
+	 spiral :scale*0.4 -1 
+	 ;upper spirals
+	 fd :scale*5
+	 repeat 40[fd :scale*0.9 rt 1] 	 
+	 spiral :scale*0.25 1 
+	 pu
+	 repeat 40[bk :scale*0.9 lt 1] 
+	 pd
+	 repeat 40[fd :scale*0.9 lt 1] 
+	 spiral :scale*0.25 -1 
+	;moving for arch
+	repeat 45[fd :scale*0.25 lt 1] 
+	;arch
+	 ;outline
+	 rt 85 fd :scale*15
+	 repeat 180[fd :scale*0.382 rt 1]
+	 fd :scale*15 rt 85
+	 ;moving for lines
+	 pu
+	 repeat 45[fd :scale*0.25 lt 1]
+	 repeat 40[fd :scale*0.9 lt 1]
+	 ;lines
+	 pd pu bk :scale*18 rt 162 pd
+	 repeat 4[fd :scale*53 pu bk :scale*53 rt 11.8 pd]
+END
+
+TO parthenon :scale
+	draw
+	;moving positions
+	pu bk 200*:scale lt 90 fd :scale*100 rt 90 pd
+	
+	pillars :scale
+	
+	;moving position for side pillars
+	pu lt 90 fd 835*:scale rt 90 fd 9*:scale pd 
+	
+	side_pillars 0.99*:scale
+	
+	;moving positions for supports
+	pu rt 100 fd :scale*32 lt 100 fd :scale*212
+	pd rt 79.5 fd :scale*465
+	
+	supports :scale
+	
+	;moving positions for roof
+	pu rt 79.5 bk :scale*465 rt 100.5 fd :scale*74 pd 
+	
+	roof :scale
+	
+	;moving positions for stairs
+	pu home bk :scale*209 lt 90 fd :scale*122 rt 90 pd
+	
+	stairs :scale
+	
+	;decorations
+	 ;center
+	 pu setxy(list(245*:scale) (335*:scale))
+	 pd seth 0
+	 decoration_base_center 0.65*:scale 
+	 decoration_top 0.65*:scale
+	 ;right side
+	 pu setxy(list(618*:scale) (246*:scale))
+	 pd seth 0 
+	 decoration_base_right 0.5*:scale 
+	 decoration_top 0.5*:scale
+	 ;left side
+	 pu setxy(list(-133*:scale) (242*:scale))
+	 pd seth 0
+	 decoration_base_left 0.5*:scale 
+	 decoration_top 0.5*:scale
+	 ;far left
+	 pu setxy(list(-578*:scale) (135*:scale))
+	 pd seth 0
+	 decoration_base_left 0.45*:scale 
+	 decoration_top 0.45*:scale
+	ht
+END
+
+parthenon 1
